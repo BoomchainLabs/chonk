@@ -1,0 +1,86 @@
+# Create project folder
+rm -rf chonk-blog && mkdir chonk-blog && cd chonk-blog
+
+# Initialize Next.js app
+npx create-next-app@latest . --typescript --eslint --tailwind --app
+
+# Install dependencies
+npm install @solana/web3.js @solana/wallet-adapter-react @solana/wallet-adapter-wallets axios react-apexcharts apexcharts @next/mdx remark-gfm
+
+# Set up environment
+cat > .env.local <<EOL
+NEXT_PUBLIC_RPC_URL=https://beta.helius-rpc.com/?api-key=8c6871ff-1dcd-4bf9-a0a9-515475071365
+NEXT_PUBLIC_TOKEN_MINT=DnUsQnwNot38V9JbisNC18VHZkae1eKK5N2Dgy55pump
+NEXT_PUBLIC_TOKEN_SYMBOL=\$CHONK9K
+NEXT_PUBLIC_TOKEN_NAME=CHONKPUMP 9000
+NEXT_PUBLIC_TOKEN_IMAGE=https://ipfs.io/ipfs/Qmf7mK6z3Kajox4EL72zsvYWx5GeytwxQcENiuB8oAykmc
+EOL
+
+# Create Tailwind config extension
+cat > tailwind.config.js <<EOL
+module.exports = {
+  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
+  theme: { extend: { colors: { primary:"#FF6B6B", accent:"#FDD835", bg:"#1F1F1F" }, fontFamily:{ header:["Orbitron","sans-serif"], body:["Inter","sans-serif"] }, keyframes:{ float:{ "0%,100%":{transform:"translateY(0)"}, "50%":{transform:"translateY(-10px)"}} }, animation:{ float:"float 3s ease-in-out infinite"}}},
+  plugins:[]
+};
+EOL
+
+# Create global CSS
+cat > styles/globals.css <<EOL
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+body { background:#1F1F1F; color:white; font-family:'Inter',sans-serif; }
+EOL
+
+# Create layout.tsx with wallet provider
+mkdir -p app
+cat > app/layout.tsx <<EOL
+"use client";
+import { WalletProvider } from "@solana/wallet-adapter-react";
+import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
+export default function RootLayout({children}:{children:React.ReactNode}) {
+  return (<WalletProvider wallets={[new PhantomWalletAdapter()]}>{children}</WalletProvider>);
+}
+EOL
+
+# Create Homepage, Dashboard, Token, Blog pages
+# (Here you would copy-paste the full code from previous steps for page.tsx, dashboard/page.tsx, token/page.tsx, blog/page.tsx, and components)
+
+# Create API routes: token, holders, transfers
+mkdir -p app/api/token app/api/holders app/api/transfers
+# token route
+cat > app/api/token/route.ts <<'EOL'
+import { NextResponse } from "next/server";
+import axios from "axios";
+const MINT = process.env.NEXT_PUBLIC_TOKEN_MINT;
+export async function GET() {
+  try { const res = await axios.get(`https://api.dexscreener.com/latest/dex/tokens/${MINT}`); return NextResponse.json(res.data); }
+  catch { return NextResponse.json({error:"failed to fetch token info"}); }
+}
+EOL
+# holders route
+cat > app/api/holders/route.ts <<'EOL'
+import { NextResponse } from "next/server";
+import { Connection, PublicKey } from "@solana/web3.js";
+export async function GET() {
+  const connection = new Connection(process.env.NEXT_PUBLIC_RPC_URL!);
+  const mint = new PublicKey(process.env.NEXT_PUBLIC_TOKEN_MINT);
+  const largest = await connection.getTokenLargestAccounts(mint);
+  return NextResponse.json(largest.value);
+}
+EOL
+# transfers route
+cat > app/api/transfers/route.ts <<'EOL'
+import { NextResponse } from "next/server";
+import { Connection, PublicKey } from "@solana/web3.js";
+export async function GET() {
+  const connection = new Connection(process.env.NEXT_PUBLIC_RPC_URL!);
+  const mint = new PublicKey(process.env.NEXT_PUBLIC_TOKEN_MINT);
+  const sigs = await connection.getSignaturesForAddress(mint,{limit:20});
+  return NextResponse.json(sigs);
+}
+EOL
+
+# Finish
+echo "✅ CHONKPUMP 9000 chonk-blog project created! Run 'npm run dev' to start."

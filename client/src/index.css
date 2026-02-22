@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@400;500;700;900&display=swap');
+@import '@solana/wallet-adapter-react-ui/styles.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Dark theme (#1F1F1F) */
+  --background: 0 0% 12%;
+  --foreground: 0 0% 98%;
+
+  /* Neon accents */
+  /* Primary: #FF6B6B */
+  --primary: 360 100% 71%;
+  --primary-foreground: 0 0% 12%;
+  
+  /* Secondary: #FDD835 */
+  --secondary: 54 98% 60%;
+  --secondary-foreground: 0 0% 12%;
+
+  --muted: 0 0% 20%;
+  --muted-foreground: 0 0% 70%;
+
+  --accent: 360 100% 71%;
+  --accent-foreground: 0 0% 12%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+
+  /* Borders slightly lighter than bg */
+  --border: 0 0% 25%;
+  --input: 0 0% 25%;
+  --ring: 360 100% 71%;
+
+  --card: 0 0% 15%;
+  --card-foreground: 0 0% 98%;
+
+  --popover: 0 0% 15%;
+  --popover-foreground: 0 0% 98%;
+
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Orbitron', sans-serif;
+
+  --radius: 0.75rem;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground antialiased min-h-screen selection:bg-primary/30 selection:text-primary;
+    font-family: var(--font-sans);
+    background-image: 
+      radial-gradient(circle at 15% 50%, rgba(255, 107, 107, 0.08), transparent 25%),
+      radial-gradient(circle at 85% 30%, rgba(253, 216, 53, 0.05), transparent 25%);
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    @apply font-bold tracking-wider;
+  }
+}
+
+@layer utilities {
+  .text-glow-primary {
+    text-shadow: 0 0 10px hsl(var(--primary) / 0.5), 0 0 20px hsl(var(--primary) / 0.3);
+  }
+  
+  .text-glow-secondary {
+    text-shadow: 0 0 10px hsl(var(--secondary) / 0.5), 0 0 20px hsl(var(--secondary) / 0.3);
+  }
+
+  .box-glow-primary {
+    box-shadow: 0 0 15px hsl(var(--primary) / 0.3), inset 0 0 10px hsl(var(--primary) / 0.1);
+  }
+
+  .box-glow-secondary {
+    box-shadow: 0 0 15px hsl(var(--secondary) / 0.3), inset 0 0 10px hsl(var(--secondary) / 0.1);
+  }
+
+  .glass-card {
+    @apply bg-card/60 backdrop-blur-md border border-white/10 shadow-xl;
+  }
+}
+
+/* Override Wallet Adapter Button to match our theme */
+.wallet-adapter-button {
+  background-color: hsl(var(--primary)) !important;
+  color: hsl(var(--primary-foreground)) !important;
+  font-family: var(--font-display) !important;
+  font-weight: 700 !important;
+  border-radius: var(--radius) !important;
+  text-transform: uppercase;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 14px hsl(var(--primary) / 0.4) !important;
+}
+
+.wallet-adapter-button:hover {
+  background-color: hsl(var(--primary) / 0.8) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px hsl(var(--primary) / 0.6) !important;
+}

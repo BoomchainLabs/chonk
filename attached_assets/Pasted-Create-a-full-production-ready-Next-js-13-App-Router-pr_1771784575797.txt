@@ -1,0 +1,64 @@
+Create a full production-ready Next.js 13 (App Router) project called "chonk-blog" for the CHONKPUMP 9000 Solana token.
+
+Token Details:
+- Mint: DnUsQnwNot38V9JbisNC18VHZkae1eKK5N2Dgy55pump
+- Symbol: $CHONK9K
+- Name: CHONKPUMP 9000
+- Image: https://ipfs.io/ipfs/Qmf7mK6z3Kajox4EL72zsvYWx5GeytwxQcENiuB8oAykmc
+- RPC: https://beta.helius-rpc.com/?api-key=8c6871ff-1dcd-4bf9-a0a9-515475071365
+
+Requirements:
+
+1. **Pages**
+- Homepage: Hero section with token image, name, symbol, DEXTools swap widget.
+- Dashboard: Live ApexCharts for price & liquidity, top holders, recent transfers, wallet connect (Phantom).
+- Token page: Large glowing token image, mint address, Solscan & DexTools links, description "The most advanced chonk-pumping AI ever built. Moon-bound, extra thicc, and unstoppable."
+- Blog page: Static roadmap posts with dates & icons, clean grid layout.
+
+2. **Components**
+- Hero, StatsCards, WhaleTable, BlogCard, Footer, WalletConnect.
+
+3. **API Routes**
+- /api/token → fetch from DexScreener for live price & liquidity.
+- /api/holders → fetch top token holders from Solana using @solana/web3.js.
+- /api/transfers → fetch recent transfers from Solana (limit 20).
+
+4. **Wallet Integration**
+- Phantom wallet connect using @solana/wallet-adapter-react and @solana/wallet-adapter-wallets.
+- Display connected address.
+
+5. **Design**
+- Dark background: #1F1F1F
+- Neon accent: #FF6B6B, #FDD835
+- Glow shadows for token and cards
+- Responsive layout for mobile & desktop
+
+6. **Tailwind & Styling**
+- Tailwind CSS configured
+- Animated float/glow effects for token image and hero section
+- Custom fonts: Orbitron for headers, Inter for body
+
+7. **SEO & Metadata**
+- Dynamic <title> and <meta> for each page
+- OG tags using token image and project description
+- Favicon from token IPFS image
+
+8. **Performance**
+- Lazy load ApexCharts
+- Next.js Image optimization for token image
+- Minimized bundle size
+
+9. **Deployment Ready**
+- Include `.env.local` template with RPC and token info
+- Include `vercel.json` for Vercel deployment
+- Include `.replit` config for Replit one-click deploy
+- Ensure npm run dev / npm run build works without errors
+- Fully production-ready
+
+10. **Output**
+- Full folder structure with app/, components/, styles/, package.json, tailwind.config.js, .env.local
+- Fully functional API routes
+- Charts, wallet connect, blog, token page, dashboard all working
+- Ready to deploy live immediately
+
+Provide all code files in a **single copy-paste format**, ready to generate the project.
